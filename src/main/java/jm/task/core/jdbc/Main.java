@@ -13,7 +13,7 @@ public class Main {
 
         try (Connection oConnection = DriverManager.getConnection(URL,USER,PASSWORD);
              Statement oStatement = oConnection.createStatement()) {
-            oStatement.execute("insert into users (name, city) values ('Timi', 'Novgorod')");
+            oStatement.execute("insert into users (name, city) values ('Tim', 'Volga')");
 
         } catch (SQLException e) {
             e.printStackTrace();
