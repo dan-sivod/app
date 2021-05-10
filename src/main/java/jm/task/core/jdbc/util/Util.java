@@ -9,9 +9,9 @@ public class Util {
     private static final String PASSWORD = "1234567890Ds!";
 
     public Connection getConnection() {
-        try (Connection oConnection = DriverManager.getConnection(URL,USER,PASSWORD);) {
+        try (Connection oConnection = DriverManager.getConnection(URL,USER,PASSWORD)) {
             return oConnection;
-        } catch (SQLException e) {
+        } catch (SQLException e ) {
             e.printStackTrace();
         }
         return null;
