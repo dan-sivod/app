@@ -918,21 +918,19 @@ BACKUP_ADMIN,BINLOG_ADMIN,CONNECTION_ADMIN,ENCRYPTION_KEY_ADMIN,GROUP_REPLICATIO
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
     <column id="288" parent="285" name="name">
       <Position>2</Position>
-      <DataType>varchar(45)|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>varchar(100)|0s</DataType>
     </column>
     <column id="289" parent="285" name="lastName">
       <Position>3</Position>
-      <DataType>varchar(45)|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>varchar(100)|0s</DataType>
     </column>
     <column id="290" parent="285" name="age">
       <Position>4</Position>
-      <DataType>int(3)|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>int(11)|0s</DataType>
     </column>
     <key id="291" parent="285" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>

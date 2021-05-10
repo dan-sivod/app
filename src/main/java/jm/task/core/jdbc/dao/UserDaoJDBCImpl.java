@@ -10,20 +10,18 @@ import java.util.List;
 public class UserDaoJDBCImpl implements UserDao {
 
     private Util util = new Util();
-    private Connection connection = null;
+    private Connection connection = util.getConnection();
 
-    public UserDaoJDBCImpl() {
+    public UserDaoJDBCImpl() {}
+
+    public void createUsersTable() {
         try {
-            this.connection = util.getConnection();
             connection.setAutoCommit(false);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-
-    public void createUsersTable() {
         try(Statement statement = connection.createStatement()) {
-            statement.executeQuery("CREATE TABLE IF NOT EXISTS users(" +
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS users(" +
                     "id integer primary key auto_increment, " +
                     "name varchar(100), " +
                     "lastName varchar(100), " +
@@ -40,8 +38,13 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try(Statement statement = connection.createStatement()) {
-            statement.executeQuery("DROP TABLE IF EXISTS users;");
+            statement.executeUpdate("DROP TABLE IF EXISTS users;");
             connection.commit();
         } catch (SQLException throwables) {
             try {
@@ -59,10 +62,15 @@ public class UserDaoJDBCImpl implements UserDao {
         String strId = "SELECT * FROM users ORDER BY id DESC LIMIT 1;";
         String querySaveUser = "INSERT INTO users (id, name, lastname, age) VALUES (?,?,?,?)";
 
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try(Statement statement = connection.createStatement();
             PreparedStatement prepareStatement = connection.prepareStatement(querySaveUser)) {
             ResultSet oResultSet = statement.executeQuery(strId);
-            while(!oResultSet.next()) {
+            while(oResultSet.next()) {
                 id = oResultSet.getInt("id") + 1;
             }
             prepareStatement.setLong(1, id);
@@ -85,8 +93,13 @@ public class UserDaoJDBCImpl implements UserDao {
 
         String queryRemoveUserId = "DELETE FROM users WHERE id = " + id + ";";
 
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try(Statement statement = connection.createStatement()) {
-            statement.executeQuery(queryRemoveUserId);
+            statement.executeUpdate(queryRemoveUserId);
             connection.commit();
         } catch (SQLException throwables) {
             try {
@@ -102,12 +115,19 @@ public class UserDaoJDBCImpl implements UserDao {
 
         List<User> userList = new ArrayList<>();
 
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try(Statement statement = connection.createStatement()) {
             ResultSet oResultSet = statement.executeQuery("SELECT * FROM users;");
-            while(!oResultSet.next()) {
-                userList.add(new User(oResultSet.getString("name"),
-                                    oResultSet.getString("lastName"),
-                                    oResultSet.getByte("age")));
+            while(oResultSet.next()) {
+                User user = new User(oResultSet.getString("name"),
+                        oResultSet.getString("lastName"),
+                        oResultSet.getByte("age"));
+                user.setId(oResultSet.getLong("id"));
+                userList.add(user);
             }
             return userList;
         } catch (SQLException throwables) {
@@ -117,8 +137,13 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         try(Statement statement = connection.createStatement()) {
-            statement.executeQuery("TRUNCATE TABLE users;");
+            statement.executeUpdate("TRUNCATE TABLE users;");
             connection.commit();
         } catch (SQLException throwables) {
             try {
