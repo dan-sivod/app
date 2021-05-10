@@ -9,10 +9,12 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    private final Connection connection = new Util().getConnection();
+    private Util util = new Util();
+    private Connection connection = null;
 
     public UserDaoJDBCImpl() {
         try {
+            this.connection = util.getConnection();
             connection.setAutoCommit(false);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -53,7 +55,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
 
-        long id = 0;
+        long id = 1;
         String strId = "SELECT * FROM users ORDER BY id DESC LIMIT 1;";
         String querySaveUser = "INSERT INTO users (id, name, lastname, age) VALUES (?,?,?,?)";
 
