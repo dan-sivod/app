@@ -35,6 +35,7 @@ public class Util {
     public void closeConnection(){
         try {
             connection.close();
+            connection = null;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
