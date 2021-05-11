@@ -159,6 +159,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
+
         Connection connection = null;
         try{
             connection = util.getConnection();

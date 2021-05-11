@@ -13,6 +13,7 @@ public class Util {
     public Util() {}
 
     public Connection getConnection() {
+
         try {
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
