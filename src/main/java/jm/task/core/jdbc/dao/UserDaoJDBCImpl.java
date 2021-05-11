@@ -27,16 +27,20 @@ public class UserDaoJDBCImpl implements UserDao {
                     "age int);");
             connection.commit();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } finally {
             if (connection != null) {
                 try {
-                    connection.rollback();
                     connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            throwables.printStackTrace();
-        } finally {
             util.closeConnection();
         }
     }
@@ -52,16 +56,20 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
             statement.close();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } finally {
             if (connection != null) {
                 try {
-                    connection.rollback();
                     connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            throwables.printStackTrace();
-        } finally {
             util.closeConnection();
         }
     }
@@ -88,20 +96,24 @@ public class UserDaoJDBCImpl implements UserDao {
             prepareStatement.setInt(4, age);
             prepareStatement.execute();
             connection.commit();
+            oResultSet.close();
             statement.close();
             prepareStatement.close();
-            oResultSet.close();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } finally {
             if (connection != null) {
                 try {
-                    connection.rollback();
                     connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            throwables.printStackTrace();
-        } finally {
             util.closeConnection();
         }
     }
@@ -119,16 +131,20 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
             statement.close();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } finally {
             if (connection != null) {
                 try {
-                    connection.rollback();
                     connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            throwables.printStackTrace();
-        } finally {
             util.closeConnection();
         }
     }
@@ -147,8 +163,8 @@ public class UserDaoJDBCImpl implements UserDao {
                 user.setId(oResultSet.getLong("id"));
                 userList.add(user);
             }
-            statement.close();
             oResultSet.close();
+            statement.close();
             return userList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -170,15 +186,19 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } finally {
             if (connection != null) {
                 try {
-                    connection.rollback();
                     connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-        } finally {
             util.closeConnection();
         }
     }
